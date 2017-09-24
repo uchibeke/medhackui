@@ -84,12 +84,15 @@ function($rootScope, $scope, $http, $timeout, $localStorage) {
 	}];
 	
 	d.top3Wards = [
-		{name: "A1 (Acute Medical Unit and Ambulatory Care)", totalPeople: 32, totalWashes: 1002},
-		{name: "B2 (Intensive Care Unit, ITU)", totalPeople: 34, totalWashes: 1002},
+		{name: "A4 (Endoscopy Unit)", totalPeople: 32, totalWashes: 3994},
+		{name: "B2 (Intensive Care Unit, ITU)", totalPeople: 34, totalWashes: 2003},
 		{name: "Emergency Department (A&E)", totalPeople: 45, totalWashes: 1002},
 	];
 	
 	d.top3Profs = [
+		{name: "Dr. Ronan Conlon", dept: "Ophthalmologist", totalWashes: 66},
+		{name: "Dr. Mankarious, Marian", dept: "Family Doctor / G.P.", totalWashes: 44},
+		{name: "Dr. Rick Jaggi", dept: "Ear Nose and Throat (ENT) Doctor", totalWashes: 43},
 	];
 	ss.wardSummary = [];
 	for (var i = 0; i < d.wardSummary.length; i++) {

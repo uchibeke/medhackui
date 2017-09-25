@@ -14,36 +14,47 @@ function($rootScope, $scope, $http, $timeout, $localStorage) {
 		return (Math.floor(Math.random() * (9 - 1 + 1)) + 1) + "";
 	};
 
-	var svr = "https://09da592d.ngrok.io/";
+	var svr = "https://3a243b52.ngrok.io/";
 
 	d.img = "1";
 	
 	var dRange = 30;
 
 	a.getMinutes = function(t) {
-		console.log(t)
+		console.log(t);
 		t = new Date(t);
 		return t.toLocaleTimeString().replace(":00", "");
 	};
 
 	a.getMinutesBefore = function(t) {
-		console.log(t)
+		console.log(t);
 		t = new Date(t);
 		return new Date(t.getTime() - 1000 * (60 * dRange)).toLocaleTimeString().replace(":00", "");
 	};
 
 	// get ward summary
 	// $http.get(svr + "ward/summary").then(function(response) {
-	// d.wardSummary = response.data.reverse();
-	// ss.wardSummary = [];
-	// for (var i = 0; i < d.wardSummary.length; i++) {
-	// ss.wardSummary.push([d.wardSummary[i].frequency + "", d.wardSummary[i].milliSinceEpoch]);
-	// }
+		// d.wardSummary = response.data.reverse();
+		// ss.wardSummary = [];
+// 		
+		// for (var i = 0; i < d.wardSummary.length; i++) {
+			// ss.wardSummary.push([d.wardSummary[i].frequency + "", d.wardSummary[i].milliSinceEpoch]);
+		// }
 	// });
-	//
-	// $http.get(svr + "hospital/summary").then(function(response) {
-	// console.log(response.data)
-	// });
+	
+	
+	function keysrt(key) {
+	  return function(a,b){
+	   if (a[key] > b[key]) return 1;
+	   if (a[key] < b[key]) return -1;
+	   return 0;
+	  }
+	};
+	
+	$http.get(svr + "hospital/summary").then(function(response) {
+		response.data.sort(keysrt('frequency'));
+		d.top3Profs = response.data.reverse().slice(0, 4);
+	});
 
 	d.wardSummary = [{
 		"frequency" : 69,
@@ -89,33 +100,25 @@ function($rootScope, $scope, $http, $timeout, $localStorage) {
 		{name: "Emergency Department (A&E)", totalPeople: 45, totalWashes: 1002},
 	];
 	
-	d.top3Profs = [
-		{name: "Dr. Ronan Conlon", dept: "Ophthalmologist", totalWashes: 66},
-		{name: "Dr. Mankarious, Marian", dept: "Family Doctor / G.P.", totalWashes: 44},
-		{name: "Dr. Rick Jaggi", dept: "Ear Nose and Throat (ENT) Doctor", totalWashes: 43},
-	];
 	ss.wardSummary = [];
+	
+	
 	for (var i = 0; i < d.wardSummary.length; i++) {
 		ss.wardSummary.push([a.getMinutes(d.wardSummary[i].milliSinceEpoch), d.wardSummary[i].frequency + 0]);
 	}
+	console.log(ss.wardSummary);
 
-
-
-	$scope.printGuestList = function() {
-		var printContents = document.getElementById("GList").innerHTML;
-		var popupWin = window.open('', '_blank', 'width=1700,height=2200');
-		popupWin.document.open();
-		popupWin.document.write('<html><link rel="stylesheet" media="all" href="css/style.css"><link href="css/limestone.css" rel="stylesheet"  media="all"></head><body onload="window.print()">' + printContents + '</html>');
-		popupWin.document.close();
-	};
-	$scope.printpage = function() {
-		var originalContents = document.body.innerHTML;
-		var printReport = document.getElementById('content').innerHTML;
-		document.body.innerHTML = printReport;
-		window.print();
-		document.body.innerHTML = originalContents;
-	};
-	$scope.go_back = function() {
-		window.history.back();
-	};
+	
+	d.wards = [	];
+	
+	
+	for (var j = 0; j < d.wards; j++) {
+		var item = []
+		for (var i = 0; i < d.wardSummary.length; i++) {
+			item.push([a.getMinutes(d.wardSummary[i].milliSinceEpoch), d.wardSummary[i].frequency + 0]);
+		}
+		ss.wards.push(item);
+	}
+	
+	console.log(d.wards);
 }]);
